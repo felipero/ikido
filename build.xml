@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project basedir="." default="jar" name="ikido">
+  <description>
+    Ikido is a micro-framework for web apps
+  </description>
+
+  <property file="build.properties"/>
+  <property file="default.build.properties"/>
+
+  <path id="build.classpath">
+    <fileset dir="${lib.dir}" includes="*.jar"/>
+  </path>
+
+  <target name="prepare" description="Creates the directories needed for building">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${classes.dir}"/>
+  </target>
+
+  <target name="compile" depends="prepare" description="Compile the source files for the project.">
+    <copy todir="${classes.dir}" filtering="true" overwrite="true">
+      <fileset dir="${src.dir}" includes="**/*.properties"/>
+    </copy>
+
+    <copy todir="${classes.dir}">
+      <fileset dir="src/ioke" includes="**/*.ik"/>
+    </copy>
+  </target>
+
+  <target name="jar" depends="compile" description="Create the ikido.jar file">
+    <jar destfile="${lib.dir}/ikido.jar">
+      <fileset dir="${classes.dir}">
+        <include name="**/*.class"/>
+        <include name="**/*.ik"/>
+        <include name="**/*.properties"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="sample-app" description="Create the sample.war file in the jetty/webapps directory">
+    <war destfile="sample/sample.war" webxml="sample/WEB-INF/web.xml">
+      <lib dir="${lib.dir}" includes="ikanserve.jar,ioke.jar,ioke-lib.jar,ikido.jar"/>
+      <classes dir="sample/WEB-INF/classes" includes="**/*"/>
+    </war>
+  </target>
+
+  <target name="clean" description="clean almost everything">
+    <delete dir="${build.dir}"/>
+    <delete file="${lib.dir}/ikido.jar" quiet="true"/>
+  </target>
+</project>
