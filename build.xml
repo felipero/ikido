@@ -37,10 +37,11 @@
     </jar>
   </target>
 
-  <target name="sample-app" description="Create the sample.war file in the jetty/webapps directory">
-    <war destfile="sample/sample.war" webxml="sample/WEB-INF/web.xml">
+  <target name="sample-app" depends="jar" description="Create the sample.war file in the jetty/webapps directory">
+    <war destfile="sample/root.war" webxml="sample/WEB-INF/web.xml">
       <lib dir="${lib.dir}" includes="ikanserve.jar,ioke.jar,ioke-lib.jar,ikido.jar"/>
-      <classes dir="sample/WEB-INF/classes" includes="**/*"/>
+      <classes dir="sample" includes="app/**/*"/>
+<!--       <classes dir="sample/WEB-INF/classes" includes="**/*"/> -->
     </war>
   </target>
 
