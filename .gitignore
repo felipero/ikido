@@ -1,1 +1,9 @@
+build/
+lib/ikido.jar
+jetty/logs/*
+jetty/webapps/*
 prj.el
+*.ipr
+*.iml
+*.iws
+.ant-targets-build.xml

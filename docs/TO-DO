@@ -1,0 +1,3 @@
+- organize controllers in a specific directory inside app directory
+- Figure out how to load the controllers without configuration, regardin only convetion.
+- create and use a conf directory inside app directory.
