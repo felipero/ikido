@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project basedir="." default="jar" name="ikido">
+<project basedir="." default="sample-app" name="ikido">
   <description>
     Ikido is a micro-framework for web apps
   </description>
