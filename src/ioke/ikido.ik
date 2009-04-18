@@ -1,11 +1,10 @@
-    "Ikido is loading..." println
+"Ikido is loading..." println
  
-    Ikido = Origin mimic
-    
-    Ikido action = method(regexp, action, 
-      IKanServe actionForPath(regexp, action)
-    )
+Ikido = Origin mimic
 
-    FileSystem["classes/app/**/*controller.ik"] each(f, 
-      use(f)
-    )
+Ikido dispatch = method(path,
+  {status: 404, headers:{contentType:"text/html"}, content:"404: Resource not found."}
+;    FileSystem["classes/app/**/*controller.ik"] each(f, 
+;      use(f)
+;    )
+)
