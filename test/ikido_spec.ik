@@ -1,10 +1,10 @@
   use("ispec")
   use("ikido")
-;  use("Controller")
+  use("controller")
 
 describe("Ikido",
   describe("dispatch",
-    describe("result's",
+    describe("result",
       it("should be a Dict",
 	Ikido dispatch("/nonExistent/action") should have kind ("Dict")
       )
@@ -40,9 +40,37 @@ describe("Ikido",
 	Ikido dispatch("/nonExistent/action")[:content] should == "404: Resource not found."
       )
     )
-  )
-;      it("should find activate the cell corresponding to the requested action",
+    describe("result's values for existent action/controller",
+
+      it("should have a status 200",
 ;	use("_controllers/simple_controller.ik")
-;	Ikido dispatch("/simple/action") should
-;      )
+	Ikido dispatch("/simple/action")[:status] should == 200
+      )
+
+      it("should have the correct headers",
+	headers = Ikido dispatch("/simple/action")[:headers]
+	headers[:contentType] should == "text/html"
+      )
+
+      it("should have the correct content",
+	Ikido dispatch("/simple/action")[:content] should == "The correct content from simple controller"
+      )
+    )
+  )
+
+  describe("treatPath",
+    it("result should be a Dict",
+      Ikido treatPath("/my/action") should have kind ("Dict")
+    )      
+    
+    describe("result for a valid path",
+      it("should have the correct controller",
+	Ikido treatPath("/my/action") [:controller] should be == "my"
+      )
+
+      it("should have the correct action",
+	Ikido treatPath("/my/action")[:action] should be == "action"
+      )
+    )
+  )
 )
