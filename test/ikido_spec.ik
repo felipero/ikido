@@ -3,6 +3,18 @@
   use("controller")
 
 describe("Ikido",
+  describe("basePath",
+    it("should have the correct value",
+      myIkido = Ikido mimic
+      myIkido basePath = "../../test/_"
+      myIkido basePath should == "../../test/_"
+    )
+
+    it("should have a default value",
+      Ikido basePath should == "classes/app"
+    )
+  )
+
   describe("dispatch",
     describe("result",
       it("should be a Dict",
@@ -41,19 +53,19 @@ describe("Ikido",
       )
     )
     describe("result's values for existent action/controller",
-
+      ikido = Ikido mimic
+      ikido basePath = "../../test/_"
       it("should have a status 200",
-;	use("_controllers/simple_controller.ik")
-	Ikido dispatch("/simple/action")[:status] should == 200
+	ikido dispatch("/simple/action")[:status] should == 200
       )
 
       it("should have the correct headers",
-	headers = Ikido dispatch("/simple/action")[:headers]
+	headers = ikido dispatch("/simple/action")[:headers]
 	headers[:contentType] should == "text/html"
       )
 
       it("should have the correct content",
-	Ikido dispatch("/simple/action")[:content] should == "The correct content from simple controller"
+	ikido dispatch("/simple/action")[:content] should == "The correct content from simple controller"
       )
     )
   )

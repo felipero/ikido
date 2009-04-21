@@ -2,6 +2,8 @@
  
 Ikido = Origin mimic
 
+Ikido basePath = "classes/app"
+
 Ikido dispatch = method(path,
 
   pathInfo = treatPath(path)
@@ -14,7 +16,7 @@ Ikido dispatch = method(path,
 	result = {status: 404, headers:{contentType:"text/html"}, content:"404: Resource not found."}
       )
     ),
-    use("../../test/_controllers/#{pathInfo[:controller]}_controller.ik")
+    use(self basePath + "controllers/#{pathInfo[:controller]}_controller.ik")
     result = {status: 200, headers: {contentType:"text/html"}, content:"The correct content from simple controller"}
   )
 
