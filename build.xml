@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<project basedir="." default="sample-app" name="ikido">
+<project basedir="." default="jar" name="ikido">
   <description>
     Ikido is a micro-framework for web apps
   </description>
@@ -27,7 +27,25 @@
     </copy>
   </target>
 
-  <target name="jar" depends="compile" description="Create the ikido.jar file">
+  <target name="test-small" depends="compile" description="Runs all ISpec tests">
+    <java classname="ioke.lang.Main" fork="true" failonerror="true" maxmemory="256m">
+      <classpath refid="build.classpath"/>
+      <classpath path="${classes.dir}"/>
+      <classpath path="${test.dir}"/>
+      <arg line="../ioke/bin/ispec test -fp"/>
+    </java>
+  </target>
+
+  <target name="test" depends="compile" description="Runs all ISpec tests">
+    <java classname="ioke.lang.Main" fork="true" failonerror="true" maxmemory="256m">
+      <classpath refid="build.classpath"/>
+      <classpath path="${classes.dir}"/>
+      <classpath path="${test.dir}"/>
+      <arg line="../ioke/bin/ispec test -fs"/>
+    </java>
+  </target>
+
+  <target name="jar" depends="compile, test" description="Create the ikido.jar file">
     <jar destfile="${lib.dir}/ikido.jar">
       <fileset dir="${classes.dir}">
         <include name="**/*.class"/>
@@ -47,5 +65,6 @@
   <target name="clean" description="clean almost everything">
     <delete dir="${build.dir}"/>
     <delete file="${lib.dir}/ikido.jar" quiet="true"/>
+    <delete file="${webapp.dir}/root.war" quiet="true" />
   </target>
 </project>
