@@ -65,11 +65,21 @@ describe("Ikido",
     
     describe("result for a valid path",
       it("should have the correct controller",
-	Ikido treatPath("/my/action") [:controller] should be == "my"
+	Ikido treatPath("/my/action") [:controller] should == "my"
       )
 
       it("should have the correct action",
-	Ikido treatPath("/my/action")[:action] should be == "action"
+	Ikido treatPath("/my/action")[:action] should == "action"
+      )
+
+      it("should have the correct id",
+	Ikido treatPath("/my/action/foo")[:id] should == "foo"
+	Ikido treatPath("/my/action/3")[:id] should be == 3
+      )
+
+      it("should have the right size of elements",
+	Ikido treatPath("/my/action") size should == 2
+	Ikido treatPath("/my/action/3") size should == 3
       )
     )
   )

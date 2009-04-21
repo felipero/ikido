@@ -15,7 +15,6 @@ Ikido dispatch = method(path,
       )
     ),
     use("../../test/_controllers/#{pathInfo[:controller]}_controller.ik")
-
     result = {status: 200, headers: {contentType:"text/html"}, content:"The correct content from simple controller"}
   )
 
@@ -23,7 +22,16 @@ Ikido dispatch = method(path,
 )
 
 Ikido treatPath = method(path,
-  controller = path split("/")[0]
-  action = path split("/")[1]
-  {controller: controller, action: action}
+
+  pathParts = path split("/")
+
+  controller = pathParts[0]
+  action = pathParts[1]
+  routes = {controller: controller, action: action}
+
+  if(pathParts length > 2,
+    routes[:id] = pathParts[2]
+  )
+
+  routes
 )
