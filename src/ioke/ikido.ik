@@ -11,13 +11,26 @@ Ikido dispatch = method(path,
   result = Dict mimic
 
   bind(
-    rescue(Condition Error Load, 
+    rescue(Condition Error Load, Condition Error NoSuchCell, 
       fn(c, 
 	result = {status: 404, headers:{contentType:"text/html"}, content:"404: Resource not found."}
       )
     ),
     use(self basePath + "controllers/#{pathInfo[:controller]}_controller.ik")
-    result = {status: 200, headers: {contentType:"text/html"}, content:"The correct content from simple controller"}
+;    use("#{self basePath}controllers/#{pathInfo[:controller]}_controller.ik") 
+
+    controller = self cell(pathInfo[:controller]) mimic
+
+    unless(controller cell?(pathInfo[:action]),
+      error!(Condition Error NoSuchCell)
+    )
+
+    unless(controller cell(pathInfo[:action]) kind == "DefaultMethod",
+      error!(Condition Error NoSuchCell)
+    )
+
+    content = Message fromText(pathInfo[:action]) sendTo(controller)      
+    result = {status: 200, headers: {contentType:"text/html"}, content: content}
   )
 
   result

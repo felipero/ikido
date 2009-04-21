@@ -52,6 +52,7 @@ describe("Ikido",
 	Ikido dispatch("/nonExistent/action")[:content] should == "404: Resource not found."
       )
     )
+
     describe("result's values for existent action/controller",
       ikido = Ikido mimic
       ikido basePath = "../../test/_"
@@ -66,6 +67,26 @@ describe("Ikido",
 
       it("should have the correct content",
 	ikido dispatch("/simple/action")[:content] should == "The correct content from simple controller"
+	ikido dispatch("/simple/foo")[:content] should == "This is the foo content"
+	ikido dispatch("/simple/bar")[:content] should == "This is the bar content without the render method"
+      )
+    )
+
+    describe("result's values for existent controller but non existent action",
+      ikido = Ikido mimic
+      ikido basePath = "../../test/_"
+      it("should have a status 404",
+	ikido dispatch("/simple/nonAction")[:status] should == 404
+	ikido dispatch("/simple/notActivatableCell")[:status] should == 404
+      )
+
+      it("should have the correct headers",
+	headers = ikido dispatch("/simple/notAAction")[:headers]
+	headers[:contentType] should == "text/html"
+      )
+
+      it("should have the correct content",
+	ikido dispatch("/simple/nonExistentAction")[:content] should == "404: Resource not found."
       )
     )
   )

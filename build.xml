@@ -12,7 +12,7 @@
     <fileset dir="${lib.dir}" includes="*.jar"/>
   </path>
 
-  <target name="prepare" description="Creates the directories needed for building">
+  <target name="prepare" depends="clean" description="Creates the directories needed for building">
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${classes.dir}"/>
   </target>
