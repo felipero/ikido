@@ -1,3 +1,8 @@
-- organize controllers in a specific directory inside app directory
-- Figure out how to load the controllers without configuration, regardin only convetion.
-- create and use a conf directory inside app directory.
+Version 0.1
+- make params get into actions as a Dict
+- Improve IKanServe to work as Rack-like engine
+- improve the render method to read templates?
+- implement and integrate a html builder
+- create a URL mapping engine
+- create a view processing style
+- integrate the JSON builder from Sam
